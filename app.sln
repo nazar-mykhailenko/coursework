@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgroPlaner.Api", "AgroPlaner.Api\AgroPlaner.Api.csproj", "{B1985834-A408-4169-BB76-C01EBE81DE0B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgroPlaner.DAL", "AgroPlaner.DAL\AgroPlaner.DAL.csproj", "{B3491B04-7AA6-49F7-9298-90086C6FF9AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgroPlaner.Services", "AgroPlaner.Services\AgroPlaner.Services.csproj", "{B656C9EF-55F8-47CD-9667-B90248B4FE2E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B1985834-A408-4169-BB76-C01EBE81DE0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1985834-A408-4169-BB76-C01EBE81DE0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1985834-A408-4169-BB76-C01EBE81DE0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1985834-A408-4169-BB76-C01EBE81DE0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3491B04-7AA6-49F7-9298-90086C6FF9AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3491B04-7AA6-49F7-9298-90086C6FF9AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3491B04-7AA6-49F7-9298-90086C6FF9AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3491B04-7AA6-49F7-9298-90086C6FF9AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B656C9EF-55F8-47CD-9667-B90248B4FE2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B656C9EF-55F8-47CD-9667-B90248B4FE2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B656C9EF-55F8-47CD-9667-B90248B4FE2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B656C9EF-55F8-47CD-9667-B90248B4FE2E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
