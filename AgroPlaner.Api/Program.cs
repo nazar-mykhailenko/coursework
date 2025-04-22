@@ -2,6 +2,8 @@ using System.Text;
 using AgroPlaner.DAL.Data;
 using AgroPlaner.DAL.Models;
 using AgroPlaner.Services.Auth;
+using AgroPlaner.Services.Extensions;
+using AgroPlaner.Services.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddControllers();
+builder.Services.AddRouting(opt => opt.LowercaseUrls = true);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -64,6 +67,12 @@ builder
 
 // Register TokenService
 builder.Services.AddScoped<ITokenService, TokenService>();
+
+// Register AgroPlaner services
+builder.Services.AddAgroPlanerServices(builder.Configuration);
+
+// Register background service for weather updates
+builder.Services.AddHostedService<WeatherUpdateBackgroundService>();
 
 var app = builder.Build();
 

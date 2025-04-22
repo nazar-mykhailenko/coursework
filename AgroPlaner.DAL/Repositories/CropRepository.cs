@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using AgroPlaner.DAL.Data;
 using AgroPlaner.DAL.Models;
 using AgroPlaner.DAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +12,7 @@ namespace AgroPlaner.DAL.Repositories
 {
     public class CropRepository : BaseRepository<Crop>, ICropRepository
     {
-        public CropRepository(DbContext context)
+        public CropRepository(ApplicationDbContext context)
             : base(context) { }
 
         public async Task<IEnumerable<Crop>> GetFilteredAsync(Expression<Func<Crop, bool>> filter)

@@ -1,3 +1,4 @@
+using AgroPlaner.DAL.Data;
 using AgroPlaner.DAL.Models;
 using AgroPlaner.DAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +9,7 @@ namespace AgroPlaner.DAL.Repositories
         : EventRepository<IrrigationEvent>,
             IEventRepository<IrrigationEvent>
     {
-        public IrrigationEventRepository(DbContext context)
+        public IrrigationEventRepository(ApplicationDbContext context)
             : base(context) { }
     }
 }

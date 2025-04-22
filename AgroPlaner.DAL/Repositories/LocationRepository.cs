@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using AgroPlaner.DAL.Data;
 using AgroPlaner.DAL.Models;
 using AgroPlaner.DAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -11,10 +12,10 @@ namespace AgroPlaner.DAL.Repositories
 {
     public class LocationRepository : ILocationRepository
     {
-        private readonly DbContext _context;
+        private readonly ApplicationDbContext _context;
         private readonly DbSet<Location> _dbSet;
 
-        public LocationRepository(DbContext context)
+        public LocationRepository(ApplicationDbContext context)
         {
             _context = context;
             _dbSet = context.Set<Location>();
