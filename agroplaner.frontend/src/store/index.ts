@@ -5,6 +5,7 @@ import exampleReducer from './slices/exampleSlice';
 
 // Import additional reducers as needed
 import authReducer from './slices/authSlice';
+import locationsReducer from './slices/locationsSlice';
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     [apiSlice.reducerPath]: apiSlice.reducer,
     // Add other reducers here as needed
     auth: authReducer,
+    locations: locationsReducer,
   },
   middleware: (getDefaultMiddleware) => 
     getDefaultMiddleware({

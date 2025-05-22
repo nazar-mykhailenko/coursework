@@ -5,6 +5,10 @@ import RegisterPage from "../components/auth/RegisterPage";
 import ProtectedRoute from "../components/auth/ProtectedRoute";
 import PublicOnlyRoute from "../components/auth/PublicOnlyRoute";
 import DashboardPage from "../components/dashboard/DashboardPage";
+import LocationsList from "../components/locations/LocationsList";
+import LocationDetail from "../components/locations/LocationDetail";
+import CreateLocation from "../components/locations/CreateLocation";
+import EditLocation from "../components/locations/EditLocation";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +22,23 @@ const router = createBrowserRouter([
           {
             path: "/",
             element: <DashboardPage />,
+          },
+          // Location routes
+          {
+            path: "locations",
+            element: <LocationsList />,
+          },
+          {
+            path: "locations/new",
+            element: <CreateLocation />,
+          },
+          {
+            path: "locations/:id",
+            element: <LocationDetail />,
+          },
+          {
+            path: "locations/:id/edit",
+            element: <EditLocation />,
           },
           // Add other protected routes here
         ],

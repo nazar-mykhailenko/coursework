@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, Link } from "react-router-dom";
 import { useAppSelector } from "./store/hooks";
 import LogoutButton from "./components/auth/LogoutButton";
 import "./App.css";
@@ -9,7 +9,19 @@ function App() {
   return (
     <div className="app-container">
       <header className="app-header">
-        <h1>AgroPlaner</h1>
+        <div className="app-header-left">
+          <h1>AgroPlaner</h1>
+        </div>
+        {isAuthenticated && (
+          <div className="app-header-nav">
+            <Link to="/" className="nav-link">
+              Dashboard
+            </Link>
+            <Link to="/locations" className="nav-link">
+              Locations
+            </Link>
+          </div>
+        )}
         {isAuthenticated && <LogoutButton />}
       </header>
 
