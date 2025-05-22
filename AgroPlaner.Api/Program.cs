@@ -49,6 +49,17 @@ builder.Services.AddSwaggerGen(options =>
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
 
+// Add CORS policy to allow any origin
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 // Add DbContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
@@ -120,6 +131,9 @@ app.UseHttpsRedirection();
 // Add Authentication and Authorization middleware
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Use CORS middleware
+app.UseCors("AllowAll");
 
 app.MapControllers();
 
