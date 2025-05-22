@@ -37,6 +37,12 @@ namespace AgroPlaner.Services.Extensions
             services.AddScoped<ISoilDataService, SoilDataService>();
             services.AddScoped<ILocationService, LocationService>();
             services.AddScoped<IWeatherDataService, WeatherDataService>();
+            services.AddScoped<AgriPredictionService>();
+            services.AddScoped<IPredictionsHelperService, PredictionsHelperService>();
+            services.AddScoped<ISoilDataUpdateService, SoilDataUpdateService>();
+
+            // Register background services
+            services.AddHostedService<WeatherUpdateBackgroundService>();
 
             // Configure HttpClient for weather API
             services.AddHttpClient();

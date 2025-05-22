@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AgroPlaner.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250413151756_AddIdentityTables")]
-    partial class AddIdentityTables
+    [Migration("20250521083933_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -116,6 +116,9 @@ namespace AgroPlaner.DAL.Migrations
 
                     b.Property<int>("PlantId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("PlantingDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int?>("SoilDataId")
                         .HasColumnType("int");
@@ -287,6 +290,118 @@ namespace AgroPlaner.DAL.Migrations
                     b.HasKey("PlantId");
 
                     b.ToTable("Plants");
+
+                    b.HasData(
+                        new
+                        {
+                            PlantId = 1,
+                            AllowableDepletionFraction = 0.40000000000000002,
+                            BaseTempForGDD = 4.5,
+                            FertilizerNitrogenPercentage = 15.0,
+                            FertilizerPhosphorusPercentage = 15.0,
+                            FertilizerPotassiumPercentage = 15.0,
+                            FertilizerType = "15-15-15",
+                            KcValues = "[0.5,0.825,1.15,0.75]",
+                            MaturityGDD = 1200.0,
+                            MinSoilTempForSeeding = 10.0,
+                            Name = "Potato",
+                            NitrogenContent = 4.2999999999999998,
+                            NitrogenUptakeDistribution = "[0.2,0.4,0.3,0.1]",
+                            PhosphorusContent = 1.3999999999999999,
+                            PhosphorusUptakeDistribution = "[0.2,0.4,0.3,0.1]",
+                            PotassiumContent = 5.7999999999999998,
+                            PotassiumUptakeDistribution = "[0.2,0.4,0.3,0.1]",
+                            RootDepth = 0.59999999999999998,
+                            WiltingPoint = 50.0
+                        },
+                        new
+                        {
+                            PlantId = 2,
+                            AllowableDepletionFraction = 0.40000000000000002,
+                            BaseTempForGDD = 10.0,
+                            FertilizerNitrogenPercentage = 15.0,
+                            FertilizerPhosphorusPercentage = 15.0,
+                            FertilizerPotassiumPercentage = 15.0,
+                            FertilizerType = "15-15-15",
+                            KcValues = "[0.6,0.875,1.15,0.8]",
+                            MaturityGDD = 1000.0,
+                            MinSoilTempForSeeding = 10.0,
+                            Name = "Tomato",
+                            NitrogenContent = 3.0,
+                            NitrogenUptakeDistribution = "[0.2,0.4,0.3,0.1]",
+                            PhosphorusContent = 1.2,
+                            PhosphorusUptakeDistribution = "[0.2,0.4,0.3,0.1]",
+                            PotassiumContent = 4.2000000000000002,
+                            PotassiumUptakeDistribution = "[0.2,0.4,0.3,0.1]",
+                            RootDepth = 1.0,
+                            WiltingPoint = 50.0
+                        },
+                        new
+                        {
+                            PlantId = 3,
+                            AllowableDepletionFraction = 0.55000000000000004,
+                            BaseTempForGDD = 0.0,
+                            FertilizerNitrogenPercentage = 15.0,
+                            FertilizerPhosphorusPercentage = 15.0,
+                            FertilizerPotassiumPercentage = 15.0,
+                            FertilizerType = "15-15-15",
+                            KcValues = "[0.3,0.75,1.15,0.65]",
+                            MaturityGDD = 2900.0,
+                            MinSoilTempForSeeding = 4.0,
+                            Name = "Wheat",
+                            NitrogenContent = 20.0,
+                            NitrogenUptakeDistribution = "[0.2,0.4,0.3,0.1]",
+                            PhosphorusContent = 8.0,
+                            PhosphorusUptakeDistribution = "[0.2,0.4,0.3,0.1]",
+                            PotassiumContent = 4.5,
+                            PotassiumUptakeDistribution = "[0.2,0.4,0.3,0.1]",
+                            RootDepth = 1.5,
+                            WiltingPoint = 50.0
+                        },
+                        new
+                        {
+                            PlantId = 4,
+                            AllowableDepletionFraction = 0.5,
+                            BaseTempForGDD = 10.0,
+                            FertilizerNitrogenPercentage = 15.0,
+                            FertilizerPhosphorusPercentage = 15.0,
+                            FertilizerPotassiumPercentage = 15.0,
+                            FertilizerType = "15-15-15",
+                            KcValues = "[0.3,0.75,1.2,0.5]",
+                            MaturityGDD = 1500.0,
+                            MinSoilTempForSeeding = 10.0,
+                            Name = "Corn",
+                            NitrogenContent = 21.0,
+                            NitrogenUptakeDistribution = "[0.2,0.4,0.3,0.1]",
+                            PhosphorusContent = 7.0,
+                            PhosphorusUptakeDistribution = "[0.2,0.4,0.3,0.1]",
+                            PotassiumContent = 5.0,
+                            PotassiumUptakeDistribution = "[0.2,0.4,0.3,0.1]",
+                            RootDepth = 1.2,
+                            WiltingPoint = 50.0
+                        },
+                        new
+                        {
+                            PlantId = 5,
+                            AllowableDepletionFraction = 0.45000000000000001,
+                            BaseTempForGDD = 5.0,
+                            FertilizerNitrogenPercentage = 15.0,
+                            FertilizerPhosphorusPercentage = 15.0,
+                            FertilizerPotassiumPercentage = 15.0,
+                            FertilizerType = "15-15-15",
+                            KcValues = "[0.35,0.8,1.2,0.7]",
+                            MaturityGDD = 1000.0,
+                            MinSoilTempForSeeding = 4.0,
+                            Name = "Beetroot",
+                            NitrogenContent = 3.5,
+                            NitrogenUptakeDistribution = "[0.2,0.4,0.3,0.1]",
+                            PhosphorusContent = 1.5,
+                            PhosphorusUptakeDistribution = "[0.2,0.4,0.3,0.1]",
+                            PotassiumContent = 5.0,
+                            PotassiumUptakeDistribution = "[0.2,0.4,0.3,0.1]",
+                            RootDepth = 0.80000000000000004,
+                            WiltingPoint = 50.0
+                        });
                 });
 
             modelBuilder.Entity("AgroPlaner.DAL.Models.PlantGrowthStage", b =>
@@ -318,6 +433,188 @@ namespace AgroPlaner.DAL.Migrations
                     b.HasIndex("PlantId");
 
                     b.ToTable("PlantGrowthStage");
+
+                    b.HasData(
+                        new
+                        {
+                            PlantGrowthStageId = 1,
+                            MaxGDD = 240.0,
+                            MinGDD = 0.0,
+                            OrderIndex = 0,
+                            PlantId = 1,
+                            StageName = "Initial"
+                        },
+                        new
+                        {
+                            PlantGrowthStageId = 2,
+                            MaxGDD = 600.0,
+                            MinGDD = 240.0,
+                            OrderIndex = 0,
+                            PlantId = 1,
+                            StageName = "Development"
+                        },
+                        new
+                        {
+                            PlantGrowthStageId = 3,
+                            MaxGDD = 960.0,
+                            MinGDD = 600.0,
+                            OrderIndex = 0,
+                            PlantId = 1,
+                            StageName = "Mid-season"
+                        },
+                        new
+                        {
+                            PlantGrowthStageId = 4,
+                            MaxGDD = 1200.0,
+                            MinGDD = 960.0,
+                            OrderIndex = 0,
+                            PlantId = 1,
+                            StageName = "Late-season"
+                        },
+                        new
+                        {
+                            PlantGrowthStageId = 5,
+                            MaxGDD = 200.0,
+                            MinGDD = 0.0,
+                            OrderIndex = 0,
+                            PlantId = 2,
+                            StageName = "Initial"
+                        },
+                        new
+                        {
+                            PlantGrowthStageId = 6,
+                            MaxGDD = 500.0,
+                            MinGDD = 200.0,
+                            OrderIndex = 0,
+                            PlantId = 2,
+                            StageName = "Development"
+                        },
+                        new
+                        {
+                            PlantGrowthStageId = 7,
+                            MaxGDD = 800.0,
+                            MinGDD = 500.0,
+                            OrderIndex = 0,
+                            PlantId = 2,
+                            StageName = "Mid-season"
+                        },
+                        new
+                        {
+                            PlantGrowthStageId = 8,
+                            MaxGDD = 1000.0,
+                            MinGDD = 800.0,
+                            OrderIndex = 0,
+                            PlantId = 2,
+                            StageName = "Late-season"
+                        },
+                        new
+                        {
+                            PlantGrowthStageId = 9,
+                            MaxGDD = 580.0,
+                            MinGDD = 0.0,
+                            OrderIndex = 0,
+                            PlantId = 3,
+                            StageName = "Initial"
+                        },
+                        new
+                        {
+                            PlantGrowthStageId = 10,
+                            MaxGDD = 1450.0,
+                            MinGDD = 580.0,
+                            OrderIndex = 0,
+                            PlantId = 3,
+                            StageName = "Development"
+                        },
+                        new
+                        {
+                            PlantGrowthStageId = 11,
+                            MaxGDD = 2320.0,
+                            MinGDD = 1450.0,
+                            OrderIndex = 0,
+                            PlantId = 3,
+                            StageName = "Mid-season"
+                        },
+                        new
+                        {
+                            PlantGrowthStageId = 12,
+                            MaxGDD = 2900.0,
+                            MinGDD = 2320.0,
+                            OrderIndex = 0,
+                            PlantId = 3,
+                            StageName = "Late-season"
+                        },
+                        new
+                        {
+                            PlantGrowthStageId = 13,
+                            MaxGDD = 300.0,
+                            MinGDD = 0.0,
+                            OrderIndex = 0,
+                            PlantId = 4,
+                            StageName = "Initial"
+                        },
+                        new
+                        {
+                            PlantGrowthStageId = 14,
+                            MaxGDD = 750.0,
+                            MinGDD = 300.0,
+                            OrderIndex = 0,
+                            PlantId = 4,
+                            StageName = "Development"
+                        },
+                        new
+                        {
+                            PlantGrowthStageId = 15,
+                            MaxGDD = 1200.0,
+                            MinGDD = 750.0,
+                            OrderIndex = 0,
+                            PlantId = 4,
+                            StageName = "Mid-season"
+                        },
+                        new
+                        {
+                            PlantGrowthStageId = 16,
+                            MaxGDD = 1500.0,
+                            MinGDD = 1200.0,
+                            OrderIndex = 0,
+                            PlantId = 4,
+                            StageName = "Late-season"
+                        },
+                        new
+                        {
+                            PlantGrowthStageId = 17,
+                            MaxGDD = 200.0,
+                            MinGDD = 0.0,
+                            OrderIndex = 0,
+                            PlantId = 5,
+                            StageName = "Initial"
+                        },
+                        new
+                        {
+                            PlantGrowthStageId = 18,
+                            MaxGDD = 500.0,
+                            MinGDD = 200.0,
+                            OrderIndex = 0,
+                            PlantId = 5,
+                            StageName = "Development"
+                        },
+                        new
+                        {
+                            PlantGrowthStageId = 19,
+                            MaxGDD = 800.0,
+                            MinGDD = 500.0,
+                            OrderIndex = 0,
+                            PlantId = 5,
+                            StageName = "Mid-season"
+                        },
+                        new
+                        {
+                            PlantGrowthStageId = 20,
+                            MaxGDD = 1000.0,
+                            MinGDD = 800.0,
+                            OrderIndex = 0,
+                            PlantId = 5,
+                            StageName = "Late-season"
+                        });
                 });
 
             modelBuilder.Entity("AgroPlaner.DAL.Models.SoilData", b =>

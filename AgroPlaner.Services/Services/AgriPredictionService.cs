@@ -155,7 +155,7 @@ namespace AgroPlaner.Services.Services
             return cumulativeGDD > crop.Plant.MaturityGDD ? "Mature" : "Not yet emerged";
         }
 
-        private int GetGrowthStageIndex(string stageName, Crop crop)
+        public int GetGrowthStageIndex(string stageName, Crop crop)
         {
             var stages = crop.Plant.PlantGrowthStages.OrderBy(s => s.OrderIndex).ToList();
             return stages.FindIndex(s => s.StageName == stageName);

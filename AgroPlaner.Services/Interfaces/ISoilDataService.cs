@@ -16,5 +16,6 @@ namespace AgroPlaner.Services.Interfaces
             FertilizationEvent fertilizationEvent,
             string userId
         );
+        Task<SoilData> CreateOrGetSoilDataAsync(int cropId, string userId);
     }
 }

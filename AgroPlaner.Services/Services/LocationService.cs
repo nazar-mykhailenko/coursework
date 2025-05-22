@@ -49,16 +49,13 @@ namespace AgroPlaner.Services.Services
                 throw new UnauthorizedAccessException(
                     "User does not have permission to update this location"
                 );
-            }
-
-            // Update the location details
+            }            // Update the location details
             existingLocation.Name = location.Name;
             existingLocation.Latitude = location.Latitude;
             existingLocation.Longitude = location.Longitude;
 
-            // Since the repository doesn't have an Update method, we need to create a new one
-            await _locationRepository.DeleteAsync(location.LocationId);
-            return await _locationRepository.CreateAsync(existingLocation);
+            // Use the repository's UpdateAsync method
+            return await _locationRepository.UpdateAsync(existingLocation);
         }
 
         public async Task<bool> DeleteAsync(int id, string userId)

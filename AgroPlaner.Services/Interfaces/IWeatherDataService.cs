@@ -1,4 +1,5 @@
 using AgroPlaner.DAL.Models;
+using AgroPlaner.Services.Models;
 
 namespace AgroPlaner.Services.Interfaces
 {
@@ -11,5 +12,6 @@ namespace AgroPlaner.Services.Interfaces
         );
         Task<WeatherData?> GetTodayWeatherForLocationAsync(int locationId);
         Task UpdateWeatherForAllLocationsAsync();
+        Task<IEnumerable<WeatherForecast>> GetWeatherForecastAsync(int locationId, int days = 30);
     }
 }

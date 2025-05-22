@@ -47,12 +47,18 @@ namespace AgroPlaner.DAL.Repositories
         {
             return await _dbSet.FindAsync(id);
         }
-
         public async Task<IEnumerable<Location>> GetFilteredAsync(
             Expression<Func<Location, bool>> filter
         )
         {
             return await _dbSet.Where(filter).ToListAsync();
+        }
+
+        public async Task<Location> UpdateAsync(Location entity)
+        {
+            _dbSet.Update(entity);
+            await _context.SaveChangesAsync();
+            return entity;
         }
     }
 }

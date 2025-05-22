@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using AgroPlaner.Api.Models;
 using AgroPlaner.DAL.Models;
 using AgroPlaner.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -20,7 +21,7 @@ namespace AgroPlaner.Api.Controllers
 
         // GET: api/SoilData/crop/5
         [HttpGet("crop/{cropId}")]
-        public async Task<ActionResult<SoilData>> GetSoilDataByCrop(int cropId)
+        public async Task<ActionResult<SoilDataDto>> GetSoilDataByCrop(int cropId)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var soilData = await _soilDataService.GetByCropIdAsync(cropId, userId);
@@ -30,19 +31,32 @@ namespace AgroPlaner.Api.Controllers
                 return NotFound();
             }
 
-            return Ok(soilData);
+            return Ok(MapSoilDataToDto(soilData));
         }
 
         // PUT: api/SoilData
         [HttpPut]
-        public async Task<ActionResult<SoilData>> UpdateSoilData(SoilData soilData)
+        public async Task<ActionResult<SoilDataDto>> UpdateSoilData(SoilDataDto soilDataDto)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             try
             {
+                // Convert DTO to domain model
+                var soilData = new SoilData
+                {
+                    SoilDataId = soilDataDto.SoilDataId,
+                    CropId = soilDataDto.CropId,
+                    CurrentMoisture = soilDataDto.CurrentMoisture,
+                    FieldCapacity = soilDataDto.FieldCapacity,
+                    Temperature = soilDataDto.Temperature,
+                    AvailableNitrogen = soilDataDto.AvailableNitrogen,
+                    AvailablePhosphorus = soilDataDto.AvailablePhosphorus,
+                    AvailablePotassium = soilDataDto.AvailablePotassium,
+                };
+
                 var updatedSoilData = await _soilDataService.UpdateAsync(soilData, userId);
-                return Ok(updatedSoilData);
+                return Ok(MapSoilDataToDto(updatedSoilData));
             }
             catch (UnauthorizedAccessException)
             {
@@ -56,21 +70,28 @@ namespace AgroPlaner.Api.Controllers
 
         // POST: api/SoilData/crop/5/irrigation
         [HttpPost("crop/{cropId}/irrigation")]
-        public async Task<ActionResult<SoilData>> ApplyIrrigation(
+        public async Task<ActionResult<SoilDataDto>> ApplyIrrigation(
             int cropId,
-            IrrigationEvent irrigationEvent
+            IrrigationEventDto irrigationEventDto
         )
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             try
             {
+                // Convert DTO to domain model
+                var irrigationEvent = new IrrigationEvent
+                {
+                    Date = DateTime.Now,
+                    Amount = irrigationEventDto.Amount,
+                };
+
                 var updatedSoilData = await _soilDataService.ApplyIrrigationEventAsync(
                     cropId,
                     irrigationEvent,
                     userId
                 );
-                return Ok(updatedSoilData);
+                return Ok(MapSoilDataToDto(updatedSoilData));
             }
             catch (UnauthorizedAccessException)
             {
@@ -84,21 +105,30 @@ namespace AgroPlaner.Api.Controllers
 
         // POST: api/SoilData/crop/5/fertilization
         [HttpPost("crop/{cropId}/fertilization")]
-        public async Task<ActionResult<SoilData>> ApplyFertilization(
+        public async Task<ActionResult<SoilDataDto>> ApplyFertilization(
             int cropId,
-            FertilizationEvent fertilizationEvent
+            FertilizationEventDto fertilizationEventDto
         )
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             try
             {
+                // Convert DTO to domain model
+                var fertilizationEvent = new FertilizationEvent
+                {
+                    Date = DateTime.Now,
+                    NitrogenAmount = fertilizationEventDto.NitrogenAmount,
+                    PhosphorusAmount = fertilizationEventDto.PhosphorusAmount,
+                    PotassiumAmount = fertilizationEventDto.PotassiumAmount,
+                };
+
                 var updatedSoilData = await _soilDataService.ApplyFertilizationEventAsync(
                     cropId,
                     fertilizationEvent,
                     userId
                 );
-                return Ok(updatedSoilData);
+                return Ok(MapSoilDataToDto(updatedSoilData));
             }
             catch (UnauthorizedAccessException)
             {
@@ -108,6 +138,22 @@ namespace AgroPlaner.Api.Controllers
             {
                 return BadRequest(new { message = ex.Message });
             }
+        }
+
+        // Helper method to map SoilData domain model to SoilDataDto
+        private static SoilDataDto MapSoilDataToDto(SoilData soilData)
+        {
+            return new SoilDataDto
+            {
+                SoilDataId = soilData.SoilDataId,
+                CropId = soilData.CropId,
+                CurrentMoisture = soilData.CurrentMoisture,
+                FieldCapacity = soilData.FieldCapacity,
+                Temperature = soilData.Temperature,
+                AvailableNitrogen = soilData.AvailableNitrogen,
+                AvailablePhosphorus = soilData.AvailablePhosphorus,
+                AvailablePotassium = soilData.AvailablePotassium,
+            };
         }
     }
 }

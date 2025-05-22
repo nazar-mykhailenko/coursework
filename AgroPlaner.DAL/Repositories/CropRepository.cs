@@ -33,5 +33,14 @@ namespace AgroPlaner.DAL.Repositories
 
             return (items, totalCount);
         }
+
+        public override async Task<Crop> GetByIdAsync(int id)
+        {
+            return await _dbSet
+                .Include(crop => crop.Soil)
+                .Include(crop => crop.Plant)
+                .ThenInclude(plant => plant.PlantGrowthStages)
+                .FirstOrDefaultAsync(crop => crop.Id == id);
+        }
     }
 }

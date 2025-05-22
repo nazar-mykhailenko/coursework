@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using AgroPlaner.Api.Models;
 using AgroPlaner.DAL.Models;
 using AgroPlaner.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -12,29 +13,25 @@ namespace AgroPlaner.Api.Controllers
     public class LocationsController : ControllerBase
     {
         private readonly ILocationService _locationService;
-        private readonly IWeatherDataService _weatherDataService;
 
-        public LocationsController(
-            ILocationService locationService,
-            IWeatherDataService weatherDataService
-        )
+        public LocationsController(ILocationService locationService)
         {
             _locationService = locationService;
-            _weatherDataService = weatherDataService;
         }
 
         // GET: api/Locations
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Location>>> GetLocations()
+        public async Task<ActionResult<IEnumerable<LocationDto>>> GetLocations()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var locations = await _locationService.GetAllAsync(userId);
-            return Ok(locations);
+            var dtos = locations.Select(MapLocationToDto);
+            return Ok(dtos);
         }
 
         // GET: api/Locations/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Location>> GetLocation(int id)
+        public async Task<ActionResult<LocationDto>> GetLocation(int id)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var location = await _locationService.GetByIdAsync(id, userId);
@@ -44,69 +41,28 @@ namespace AgroPlaner.Api.Controllers
                 return NotFound();
             }
 
-            return Ok(location);
-        }
-
-        // GET: api/Locations/5/weather
-        [HttpGet("{id}/weather")]
-        public async Task<ActionResult<WeatherData>> GetLocationWeather(int id)
-        {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var location = await _locationService.GetByIdAsync(id, userId);
-
-            if (location == null)
-            {
-                return NotFound();
-            }
-
-            var weatherData = await _weatherDataService.GetTodayWeatherForLocationAsync(id);
-
-            if (weatherData == null)
-            {
-                return NotFound("Weather data not available for this location");
-            }
-
-            return Ok(weatherData);
-        }
-
-        // GET: api/Locations/5/weather/history
-        [HttpGet("{id}/weather/history")]
-        public async Task<ActionResult<IEnumerable<WeatherData>>> GetLocationWeatherHistory(
-            int id,
-            [FromQuery] DateTime startDate,
-            [FromQuery] DateTime endDate
-        )
-        {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var location = await _locationService.GetByIdAsync(id, userId);
-
-            if (location == null)
-            {
-                return NotFound();
-            }
-
-            var weatherHistory = await _weatherDataService.GetHistoryByLocationIdAsync(
-                id,
-                startDate,
-                endDate
-            );
-            return Ok(weatherHistory);
+            return Ok(MapLocationToDto(location));
         }
 
         // POST: api/Locations
         [HttpPost]
-        public async Task<ActionResult<Location>> CreateLocation(Location location)
+        public async Task<ActionResult<LocationDto>> CreateLocation(CreateLocationDto createDto)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             try
             {
+                var location = new Location
+                {
+                    Name = createDto.Name,
+                    Latitude = createDto.Latitude,
+                    Longitude = createDto.Longitude,
+                };
+
                 var createdLocation = await _locationService.CreateAsync(location, userId);
-                return CreatedAtAction(
-                    nameof(GetLocation),
-                    new { id = createdLocation.LocationId },
-                    createdLocation
-                );
+                var dto = MapLocationToDto(createdLocation);
+
+                return CreatedAtAction(nameof(GetLocation), new { id = dto.LocationId }, dto);
             }
             catch (Exception ex)
             {
@@ -116,19 +72,25 @@ namespace AgroPlaner.Api.Controllers
 
         // PUT: api/Locations/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateLocation(int id, Location location)
+        public async Task<IActionResult> UpdateLocation(int id, UpdateLocationDto updateDto)
         {
-            if (id != location.LocationId)
-            {
-                return BadRequest("The ID in the URL does not match the ID in the request body.");
-            }
-
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             try
             {
+                var location = await _locationService.GetByIdAsync(id, userId);
+                if (location == null)
+                {
+                    return NotFound();
+                }
+
+                // Update properties
+                location.Name = updateDto.Name;
+                location.Latitude = updateDto.Latitude;
+                location.Longitude = updateDto.Longitude;
+
                 var updatedLocation = await _locationService.UpdateAsync(location, userId);
-                return Ok(updatedLocation);
+                return Ok(MapLocationToDto(updatedLocation));
             }
             catch (UnauthorizedAccessException)
             {
@@ -153,6 +115,18 @@ namespace AgroPlaner.Api.Controllers
             }
 
             return NoContent();
+        }
+
+        // Helper method to map Location domain model to LocationDto
+        private static LocationDto MapLocationToDto(Location location)
+        {
+            return new LocationDto
+            {
+                LocationId = location.LocationId,
+                Name = location.Name,
+                Latitude = location.Latitude,
+                Longitude = location.Longitude,
+            };
         }
     }
 }

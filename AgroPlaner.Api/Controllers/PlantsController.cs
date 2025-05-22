@@ -1,3 +1,4 @@
+using AgroPlaner.Api.Models;
 using AgroPlaner.DAL.Models;
 using AgroPlaner.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -19,15 +20,16 @@ namespace AgroPlaner.Api.Controllers
 
         // GET: api/Plants
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Plant>>> GetPlants()
+        public async Task<ActionResult<IEnumerable<PlantDto>>> GetPlants()
         {
             var plants = await _plantService.GetAllAsync();
-            return Ok(plants);
+            var dtos = plants.Select(MapPlantToDto);
+            return Ok(dtos);
         }
 
         // GET: api/Plants/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Plant>> GetPlant(int id)
+        public async Task<ActionResult<PlantDto>> GetPlant(int id)
         {
             var plant = await _plantService.GetByIdAsync(id);
 
@@ -36,10 +38,28 @@ namespace AgroPlaner.Api.Controllers
                 return NotFound();
             }
 
-            return Ok(plant);
+            return Ok(MapPlantToDto(plant));
         }
 
         // Note: Since Plant is defined as a static table with data,
         // we don't implement POST, PUT or DELETE endpoints
+
+        // Helper method to map Plant domain model to PlantDto
+        private static PlantDto MapPlantToDto(Plant plant)
+        {
+            return new PlantDto
+            {
+                PlantId = plant.PlantId,
+                Name = plant.Name,
+                MinSoilTempForSeeding = plant.MinSoilTempForSeeding,
+                BaseTempForGDD = plant.BaseTempForGDD,
+                MaturityGDD = plant.MaturityGDD,
+                RootDepth = plant.RootDepth,
+                AllowableDepletionFraction = plant.AllowableDepletionFraction,
+                NitrogenContent = plant.NitrogenContent,
+                PhosphorusContent = plant.PhosphorusContent,
+                PotassiumContent = plant.PotassiumContent,
+            };
+        }
     }
 }

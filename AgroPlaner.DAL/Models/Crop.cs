@@ -19,6 +19,7 @@ namespace AgroPlaner.DAL.Models
         public double ExpectedYield { get; set; } // tons/ha
         public double CumulativeGDDToday { get; set; } // GDD accumulated up to today
         public double FieldArea { get; set; } // ha, area of the field
+        public DateTime? PlantingDate { get; set; } // Date when the crop was planted
 
         // Navigation properties
         [ForeignKey("PlantId")]

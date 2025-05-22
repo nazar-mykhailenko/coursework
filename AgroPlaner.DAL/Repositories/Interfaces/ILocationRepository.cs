@@ -13,5 +13,6 @@ namespace AgroPlaner.DAL.Repositories.Interfaces
         Task<IEnumerable<Location>> GetAllAsync();
         Task<Location> GetByIdAsync(int id);
         Task<IEnumerable<Location>> GetFilteredAsync(Expression<Func<Location, bool>> filter);
+        Task<Location> UpdateAsync(Location entity);
     }
 }

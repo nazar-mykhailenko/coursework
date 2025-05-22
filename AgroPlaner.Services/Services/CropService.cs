@@ -39,10 +39,12 @@ namespace AgroPlaner.Services.Services
 
             return crop;
         }
-
         public async Task<Crop> CreateAsync(Crop crop, string userId)
         {
             crop.UserId = userId;
+
+            // Set planting date to current date when crop is created
+            crop.PlantingDate = DateTime.Today;
 
             // Create a SoilData entry for this crop
             if (crop.Soil == null)

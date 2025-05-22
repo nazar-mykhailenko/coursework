@@ -32,10 +32,11 @@ namespace AgroPlaner.Services.Auth
             var userRoles = await _userManager.GetRolesAsync(user);
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Email ?? string.Empty),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id ?? string.Empty),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email ?? string.Empty),
-                new Claim("uid", user.Id),
+                new Claim("UserId", user.Id ?? string.Empty),
+                new Claim(ClaimTypes.NameIdentifier, user.Id ?? string.Empty),
             };
 
             // Add roles to claims
@@ -50,7 +51,7 @@ namespace AgroPlaner.Services.Auth
                 Expires = DateTime.UtcNow.AddMinutes(_jwtConfig.ExpiryInMinutes),
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(key),
-                    SecurityAlgorithms.HmacSha256Signature
+                    SecurityAlgorithms.HmacSha256
                 ),
                 Issuer = _jwtConfig.Issuer,
                 Audience = _jwtConfig.Audience,
