@@ -27,11 +27,12 @@ const LocationDetail = () => {
       dispatch(clearCurrentLocation());
     };
   }, [dispatch, id]);
-
   const handleDelete = async () => {
     if (
       !id ||
-      !window.confirm("Are you sure you want to delete this location?")
+      !window.confirm(
+        "Are you sure you want to delete this location? WARNING: Deleting this location will also delete all crops assigned to it."
+      )
     ) {
       return;
     }

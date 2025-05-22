@@ -4,6 +4,7 @@ using AgroPlaner.DAL.Data;
 using AgroPlaner.DAL.Models;
 using AgroPlaner.Services.Auth;
 using AgroPlaner.Services.Extensions;
+using AgroPlaner.Services.Models;
 using AgroPlaner.Services.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -113,9 +114,6 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 
 // Register AgroPlaner services
 builder.Services.AddAgroPlanerServices(builder.Configuration);
-
-// Register background service for weather updates
-builder.Services.AddHostedService<WeatherUpdateBackgroundService>();
 
 var app = builder.Build();
 

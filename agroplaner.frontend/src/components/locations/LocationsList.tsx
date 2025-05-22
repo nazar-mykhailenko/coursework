@@ -29,9 +29,12 @@ const LocationsList = () => {
   useEffect(() => {
     dispatch(fetchLocations());
   }, [dispatch]);
-
   const handleDelete = async (id: number) => {
-    if (window.confirm("Are you sure you want to delete this location?")) {
+    if (
+      window.confirm(
+        "Are you sure you want to delete this location? WARNING: Deleting this location will also delete all crops assigned to it."
+      )
+    ) {
       await dispatch(deleteLocation(id));
     }
   };

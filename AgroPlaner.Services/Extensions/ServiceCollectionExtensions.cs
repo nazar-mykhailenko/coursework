@@ -43,12 +43,14 @@ namespace AgroPlaner.Services.Extensions
 
             // Register background services
             services.AddHostedService<WeatherUpdateBackgroundService>();
+            services.AddHostedService<SoilDataUpdateBackgroundService>();
 
             // Configure HttpClient for weather API
             services.AddHttpClient();
 
-            // Register WeatherApiSettings from configuration
+            // Register settings from configuration
             services.Configure<WeatherApiSettings>(configuration.GetSection("WeatherApiSettings"));
+            services.Configure<SoilDataUpdateSettings>(configuration.GetSection("SoilDataUpdateSettings"));
 
             return services;
         }

@@ -27,15 +27,13 @@ namespace AgroPlaner.DAL.Data
                 .HasMany(p => p.Crops)
                 .WithOne(c => c.Plant)
                 .HasForeignKey(c => c.PlantId)
-                .OnDelete(DeleteBehavior.Restrict); // Don't delete Plant when Crop is deleted
-
-            // Configure one-to-many relationship between Location and Crop
+                .OnDelete(DeleteBehavior.Restrict); // Don't delete Plant when Crop is deleted            // Configure one-to-many relationship between Location and Crop
             modelBuilder
                 .Entity<Location>()
                 .HasMany(l => l.Crops)
                 .WithOne(c => c.Location)
                 .HasForeignKey(c => c.LocationId)
-                .OnDelete(DeleteBehavior.Restrict); // Don't delete Location when Crop is deleted
+                .OnDelete(DeleteBehavior.Cascade); // Delete Crops when Location is deleted
 
             // Configure one-to-many relationship between Location and WeatherData
             modelBuilder
