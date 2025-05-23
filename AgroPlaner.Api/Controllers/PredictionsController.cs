@@ -22,7 +22,6 @@ namespace AgroPlaner.Api.Controllers
             _predictionsService = predictionsService;
             _plantService = plantService;
         }
-
         [HttpPost("seeding")]
         public async Task<ActionResult<SeedingPredictionResponseDto>> PredictSeedingDate(
             [FromBody] SeedingPredictionRequestDto request
@@ -37,7 +36,7 @@ namespace AgroPlaner.Api.Controllers
             var crop = new Crop
             {
                 Plant = plant,
-                LocationId = request.LocationId,
+                // No LocationId is needed as we're using coordinates directly
                 ExpectedYield = request.ExpectedYield,
                 FieldArea = request.FieldArea,
                 Soil = new SoilData
@@ -51,12 +50,11 @@ namespace AgroPlaner.Api.Controllers
                 }
             };
 
-            var seedingDate = await _predictionsService.PredictSeedingDateAsync(
+            var seedingDate = await _predictionsService.PredictSeedingDateByCoordinatesAsync(
                 crop,
-                request.LocationId
-            );
-
-            return Ok(new SeedingPredictionResponseDto { RecommendedSeedingDate = seedingDate });
+                request.Latitude,
+                request.Longitude
+            ); return Ok(new SeedingPredictionResponseDto { RecommendedSeedingDate = seedingDate });
         }
 
         [HttpGet("irrigation/{cropId}")]

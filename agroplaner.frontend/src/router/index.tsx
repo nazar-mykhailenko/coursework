@@ -9,6 +9,7 @@ import LocationsList from "../components/locations/LocationsList";
 import LocationDetail from "../components/locations/LocationDetail";
 import CreateLocation from "../components/locations/CreateLocation";
 import EditLocation from "../components/locations/EditLocation";
+import SeedingPredictionPage from "../components/predictions/SeedingPredictionPage";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,11 @@ const router = createBrowserRouter([
           {
             path: "locations/:id/edit",
             element: <EditLocation />,
+          },
+          // Prediction routes
+          {
+            path: "predictions/seeding",
+            element: <SeedingPredictionPage />,
           },
           // Add other protected routes here
         ],

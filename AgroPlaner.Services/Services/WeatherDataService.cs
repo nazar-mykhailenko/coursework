@@ -256,6 +256,42 @@ namespace AgroPlaner.Services.Services
             return Enumerable.Empty<WeatherForecast>();
         }
 
+        public async Task<IEnumerable<WeatherForecast>> GetWeatherForecastByCoordinatesAsync(double latitude, double longitude, int days = 30)
+        {
+            try
+            {
+                // Updated URL to use the correct climate API endpoint with direct coordinates
+                string url = $"https://pro.openweathermap.org/data/2.5/forecast/climate?lat={latitude.ToString(CultureInfo.InvariantCulture)}&lon={longitude.ToString(CultureInfo.InvariantCulture)}&appid={_apiSettings.ApiKey}&units=metric&cnt={days}";
+
+                var response = await _httpClient.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var climateResponse = JsonSerializer.Deserialize<OpenWeatherMapClimateResponse>(responseContent);
+
+                if (climateResponse?.List != null)
+                {
+                    return climateResponse.List.Select(item => new WeatherForecast
+                    {
+                        // No LocationId as this is a forecast by coordinates
+                        Date = DateTimeOffset.FromUnixTimeSeconds(item.Dt).Date,
+                        MaxTemp = item.Temp.Max,
+                        MinTemp = item.Temp.Min,
+                        Precipitation = item.Rain.GetValueOrDefault(), // If Rain is null, use 0
+                        WindSpeed = item.Speed,
+                        SolarRadiation = null, // Climate API doesn't provide solar radiation
+                        RelativeHumidity = item.Humidity
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error fetching weather forecast by coordinates: {ex.Message}");
+            }
+
+            return Enumerable.Empty<WeatherForecast>();
+        }
+
         private class OpenWeatherMapClimateResponse
         {
             [JsonPropertyName("list")]

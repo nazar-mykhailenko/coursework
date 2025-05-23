@@ -12,6 +12,7 @@ namespace AgroPlaner.Services.Services
         private readonly IWeatherDataService _weatherDataService;
         private readonly ISoilDataService _soilDataService;
 
+
         public PredictionsHelperService(
             AgriPredictionService agriPredictionService,
             ICropRepository cropRepository,
@@ -25,10 +26,10 @@ namespace AgroPlaner.Services.Services
             _soilDataService = soilDataService;
         }
 
-        public async Task<DateTime?> PredictSeedingDateAsync(Crop crop, int locationId)
+        public async Task<DateTime?> PredictSeedingDateByCoordinatesAsync(Crop crop, double latitude, double longitude)
         {
-            // Get weather forecast for the location
-            var weatherForecast = await _weatherDataService.GetWeatherForecastAsync(locationId);
+            // Get weather forecast for the coordinates
+            var weatherForecast = await _weatherDataService.GetWeatherForecastByCoordinatesAsync(latitude, longitude);
 
             // Create a new SoilData instance with the data from the crop
             var soilData = new SoilData

@@ -13,5 +13,6 @@ namespace AgroPlaner.Services.Interfaces
         Task<WeatherData?> GetTodayWeatherForLocationAsync(int locationId);
         Task UpdateWeatherForAllLocationsAsync();
         Task<IEnumerable<WeatherForecast>> GetWeatherForecastAsync(int locationId, int days = 30);
+        Task<IEnumerable<WeatherForecast>> GetWeatherForecastByCoordinatesAsync(double latitude, double longitude, int days = 30);
     }
 }

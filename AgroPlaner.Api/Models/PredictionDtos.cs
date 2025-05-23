@@ -3,7 +3,8 @@ namespace AgroPlaner.Api.Models
     public class SeedingPredictionRequestDto
     {
         public int PlantId { get; set; }
-        public int LocationId { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
         public double ExpectedYield { get; set; }
         public double FieldArea { get; set; }
         public SoilDataDto Soil { get; set; } = new();

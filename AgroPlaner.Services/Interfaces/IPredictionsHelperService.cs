@@ -5,7 +5,7 @@ namespace AgroPlaner.Services.Interfaces
 {
     public interface IPredictionsHelperService
     {
-        Task<DateTime?> PredictSeedingDateAsync(Crop crop, int locationId);
+        Task<DateTime?> PredictSeedingDateByCoordinatesAsync(Crop crop, double latitude, double longitude);
         Task<(double Amount, DateTime? NextDate)> PredictIrrigationAsync(int cropId);
         Task<(double NAmount, double PAmount, double KAmount, DateTime? NextDate)> PredictFertilizationAsync(int cropId);
         Task<DateTime?> PredictHarvestDateAsync(int cropId);

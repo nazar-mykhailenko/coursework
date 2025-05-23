@@ -6,6 +6,7 @@ import exampleReducer from './slices/exampleSlice';
 // Import additional reducers as needed
 import authReducer from './slices/authSlice';
 import locationsReducer from './slices/locationsSlice';
+import predictionsReducer from './slices/predictionsSlice';
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
     // Add other reducers here as needed
     auth: authReducer,
     locations: locationsReducer,
+    predictions: predictionsReducer,
   },
   middleware: (getDefaultMiddleware) => 
     getDefaultMiddleware({
