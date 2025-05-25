@@ -23,6 +23,9 @@ function App() {
             <Link to="/crops" className="nav-link">
               Crops
             </Link>
+            <Link to="/predictions/seeding" className="nav-link">
+              Seeding Prediction
+            </Link>
           </div>
         )}
         {isAuthenticated && <LogoutButton />}

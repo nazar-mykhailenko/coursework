@@ -84,11 +84,10 @@ namespace AgroPlaner.Services.Services
             {
                 return (0, null);
             }
-
             var currentStage = _agriPredictionService.GetCurrentGrowthStage(crop);
             var growthStageIndex = _agriPredictionService.GetGrowthStageIndex(currentStage, crop);
 
-            return _agriPredictionService.CalculateIrrigation(
+            var (amount, nextDate) = _agriPredictionService.CalculateIrrigation(
                 crop,
                 weatherHistory.ToList(),
                 new WeatherData
@@ -104,6 +103,19 @@ namespace AgroPlaner.Services.Services
                 soilData,
                 growthStageIndex
             );
+
+            // Validate that the irrigation date is realistic (within 1 year)
+            if (nextDate.HasValue)
+            {
+                var daysFromToday = (nextDate.Value - DateTime.Today).TotalDays;
+                if (daysFromToday < 0 || daysFromToday > 365)
+                {
+                    // Return no irrigation needed if date is unrealistic
+                    return (0, null);
+                }
+            }
+
+            return (amount, nextDate);
         }
 
         public async Task<(double NAmount, double PAmount, double KAmount, DateTime? NextDate)> PredictFertilizationAsync(int cropId)
@@ -129,11 +141,9 @@ namespace AgroPlaner.Services.Services
                 crop.LocationId,
                 DateTime.Today.AddDays(-30),
                 DateTime.Today
-            );
+            ); var weatherForecast = await _weatherDataService.GetWeatherForecastAsync(crop.LocationId);
 
-            var weatherForecast = await _weatherDataService.GetWeatherForecastAsync(crop.LocationId);
-
-            return _agriPredictionService.CalculateFertilization(
+            var (nAmount, pAmount, kAmount, nextDate) = _agriPredictionService.CalculateFertilization(
                 crop,
                 soilData,
                 crop.PlantingDate.Value,
@@ -149,6 +159,19 @@ namespace AgroPlaner.Services.Services
                     RelativeHumidity = w.RelativeHumidity
                 }).ToList()
             );
+
+            // Validate that the fertilization date is realistic (within 1 year)
+            if (nextDate.HasValue)
+            {
+                var daysFromToday = (nextDate.Value - DateTime.Today).TotalDays;
+                if (daysFromToday < 0 || daysFromToday > 365)
+                {
+                    // Return no fertilization needed if date is unrealistic
+                    return (0, 0, 0, null);
+                }
+            }
+
+            return (nAmount, pAmount, kAmount, nextDate);
         }
 
         public async Task<DateTime?> PredictHarvestDateAsync(int cropId)
@@ -199,11 +222,9 @@ namespace AgroPlaner.Services.Services
                 crop.LocationId,
                 DateTime.Today.AddDays(-30),
                 DateTime.Today
-            );
+            ); var weatherForecast = await _weatherDataService.GetWeatherForecastAsync(crop.LocationId);
 
-            var weatherForecast = await _weatherDataService.GetWeatherForecastAsync(crop.LocationId);
-
-            return _agriPredictionService.Predict(
+            var result = _agriPredictionService.Predict(
                 crop,
                 weatherHistory.ToList(),
                 weatherForecast.Select(w => new WeatherData
@@ -217,7 +238,33 @@ namespace AgroPlaner.Services.Services
                     RelativeHumidity = w.RelativeHumidity
                 }).ToList(),
                 crop.PlantingDate.Value
-            );
+            );            // Validate that the irrigation date is realistic (within 1 year)
+            if (result.NextIrrigationDate.HasValue)
+            {
+                var daysFromToday = (result.NextIrrigationDate.Value - DateTime.Today).TotalDays;
+                if (daysFromToday < 0 || daysFromToday > 365)
+                {
+                    // Clear unrealistic irrigation data
+                    result.NextIrrigationDate = null;
+                    result.IrrigationAmount = 0;
+                }
+            }
+
+            // Validate that the fertilization date is realistic (within 1 year)
+            if (result.NextFertilizationDate.HasValue)
+            {
+                var daysFromToday = (result.NextFertilizationDate.Value - DateTime.Today).TotalDays;
+                if (daysFromToday < 0 || daysFromToday > 365)
+                {
+                    // Clear unrealistic fertilization data
+                    result.NextFertilizationDate = null;
+                    result.NitrogenFertilizerAmount = 0;
+                    result.PhosphorusFertilizerAmount = 0;
+                    result.PotassiumFertilizerAmount = 0;
+                }
+            }
+
+            return result;
         }
     }
 }

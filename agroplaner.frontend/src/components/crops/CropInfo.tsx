@@ -278,7 +278,7 @@ const CropInfo: React.FC = () => {
             </div>
             <div className="info-item">
               <span className="label">Expected Yield:</span>
-              <span className="value">{currentCrop.expectedYield} kg</span>
+              <span className="value">{currentCrop.expectedYield} tons/ha</span>
             </div>
             <div className="info-item">
               <span className="label">Field Area:</span>
