@@ -39,33 +39,6 @@ const DashboardPage = () => {
           <h3>Agricultural Calendar</h3>
           <Calendar onEventClick={handleEventClick} />
         </div>
-
-        <div className="dashboard-grid">
-          <div className="dashboard-card">
-            <h3>My Crops</h3>
-            <p>Manage your crops and planting schedules</p>
-            <Link to="/crops" className="dashboard-button">
-              View Crops
-            </Link>
-          </div>
-          <div className="dashboard-card">
-            <h3>Weather Data</h3>
-            <p>Check weather forecasts and historical data</p>
-            <button className="dashboard-button">View Weather</button>
-          </div>
-          <div className="dashboard-card">
-            <h3>Soil Analysis</h3>
-            <p>Review soil data and recommendations</p>
-            <button className="dashboard-button">View Soil Data</button>
-          </div>
-          <div className="dashboard-card">
-            <h3>Locations</h3>
-            <p>Manage your farming locations</p>
-            <Link to="/locations" className="dashboard-button">
-              View Locations
-            </Link>
-          </div>
-        </div>
       </div>
 
       {/* Event Details Modal */}
