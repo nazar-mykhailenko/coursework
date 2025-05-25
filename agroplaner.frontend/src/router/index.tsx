@@ -10,6 +10,7 @@ import LocationDetail from "../components/locations/LocationDetail";
 import CreateLocation from "../components/locations/CreateLocation";
 import EditLocation from "../components/locations/EditLocation";
 import SeedingPredictionPage from "../components/predictions/SeedingPredictionPage";
+import { CropsList, CreateCrop, EditCrop, CropInfo } from "../components/crops";
 
 const router = createBrowserRouter([
   {
@@ -40,11 +41,27 @@ const router = createBrowserRouter([
           {
             path: "locations/:id/edit",
             element: <EditLocation />,
-          },
-          // Prediction routes
+          }, // Prediction routes
           {
             path: "predictions/seeding",
             element: <SeedingPredictionPage />,
+          },
+          // Crop routes
+          {
+            path: "crops",
+            element: <CropsList />,
+          },
+          {
+            path: "crops/create",
+            element: <CreateCrop />,
+          },
+          {
+            path: "crops/:id",
+            element: <CropInfo />,
+          },
+          {
+            path: "crops/:id/edit",
+            element: <EditCrop />,
           },
           // Add other protected routes here
         ],

@@ -36,7 +36,6 @@ namespace AgroPlaner.Api.Models
 
     public class FullPredictionResponseDto
     {
-        public DateTime? RecommendedSeedingDate { get; set; }
         public double IrrigationAmount { get; set; }
         public DateTime? NextIrrigationDate { get; set; }
         public double NitrogenFertilizerAmount { get; set; }

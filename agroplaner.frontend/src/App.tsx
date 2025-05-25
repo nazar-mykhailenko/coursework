@@ -20,6 +20,9 @@ function App() {
             <Link to="/locations" className="nav-link">
               Locations
             </Link>
+            <Link to="/crops" className="nav-link">
+              Crops
+            </Link>
           </div>
         )}
         {isAuthenticated && <LogoutButton />}

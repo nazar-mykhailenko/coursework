@@ -83,6 +83,7 @@ namespace AgroPlaner.Api.Controllers
                     LocationId = createDto.LocationId,
                     ExpectedYield = createDto.ExpectedYield,
                     FieldArea = createDto.FieldArea,
+                    PlantingDate = DateTime.UtcNow, // Set planting date to now
                     CumulativeGDDToday =
                         0 // Default value for new crops
                     ,

@@ -26,8 +26,17 @@ api.interceptors.response.use(
   (error) => {
     // Handle unauthorized errors (status 401)
     if (error.response && error.response.status === 401) {
-      // Log out user and redirect to login page
+      // Clear token from localStorage
       localStorage.removeItem('token');
+        // Dispatch logout action to update Redux state
+      // We need to import store dynamically to avoid circular dependencies
+      import('../store/index').then(({ store }) => {
+        import('../store/slices/authSlice').then(({ logout }) => {
+          store.dispatch(logout());
+        });
+      });
+      
+      // Redirect to login page
       window.location.href = '/login';
     }
     return Promise.reject(error);

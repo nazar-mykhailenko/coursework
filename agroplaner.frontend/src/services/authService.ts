@@ -1,6 +1,4 @@
-import axios from 'axios';
-
-const API_URL = 'http://localhost:5105/api'; // adjust as needed for your backend URL
+import api from './api';
 
 export interface RegisterRequest {
   email: string;
@@ -20,17 +18,15 @@ export interface AuthResponse {
   errors: string[];
 }
 
-export const authService = {
-  async register(data: RegisterRequest): Promise<AuthResponse> {
-    const response = await axios.post<AuthResponse>(`${API_URL}/auth/register`, data);
+export const authService = {  async register(data: RegisterRequest): Promise<AuthResponse> {
+    const response = await api.post<AuthResponse>('/auth/register', data);
     if (response.data.success) {
       localStorage.setItem('token', response.data.token);
     }
     return response.data;
   },
-
   async login(data: LoginRequest): Promise<AuthResponse> {
-    const response = await axios.post<AuthResponse>(`${API_URL}/auth/login`, data);
+    const response = await api.post<AuthResponse>('/auth/login', data);
     if (response.data.success) {
       localStorage.setItem('token', response.data.token);
     }

@@ -1,6 +1,4 @@
-import axios from 'axios';
-
-const API_URL = 'http://localhost:5105/api'; // adjust as needed for your backend URL
+import api from './api';
 
 export interface Location {
   locationId: number;
@@ -23,61 +21,26 @@ export interface UpdateLocationRequest {
 
 export const locationService = {
   async getLocations(): Promise<Location[]> {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      throw new Error('Authentication required');
-    }
-
-    const response = await axios.get<Location[]>(`${API_URL}/locations`, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+    const response = await api.get<Location[]>('/locations');
     return response.data;
   },
 
   async getLocation(id: number): Promise<Location> {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      throw new Error('Authentication required');
-    }
-
-    const response = await axios.get<Location>(`${API_URL}/locations/${id}`, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+    const response = await api.get<Location>(`/locations/${id}`);
     return response.data;
   },
 
   async createLocation(data: CreateLocationRequest): Promise<Location> {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      throw new Error('Authentication required');
-    }
-
-    const response = await axios.post<Location>(`${API_URL}/locations`, data, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+    const response = await api.post<Location>('/locations', data);
     return response.data;
   },
 
   async updateLocation(id: number, data: UpdateLocationRequest): Promise<Location> {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      throw new Error('Authentication required');
-    }
-
-    const response = await axios.put<Location>(`${API_URL}/locations/${id}`, data, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+    const response = await api.put<Location>(`/locations/${id}`, data);
     return response.data;
   },
 
   async deleteLocation(id: number): Promise<void> {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      throw new Error('Authentication required');
-    }
-
-    await axios.delete(`${API_URL}/locations/${id}`, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+    await api.delete(`/locations/${id}`);
   }
 };

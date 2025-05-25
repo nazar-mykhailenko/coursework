@@ -7,9 +7,11 @@ import exampleReducer from './slices/exampleSlice';
 import authReducer from './slices/authSlice';
 import locationsReducer from './slices/locationsSlice';
 import predictionsReducer from './slices/predictionsSlice';
+import cropsReducer from './slices/cropsSlice';
+import plantsReducer from './slices/plantsSlice';
+import soilDataReducer from './slices/soilDataSlice';
 
-export const store = configureStore({
-  reducer: {
+export const store = configureStore({  reducer: {
     // Core reducers
     example: exampleReducer,
     // API slice reducer
@@ -18,6 +20,9 @@ export const store = configureStore({
     auth: authReducer,
     locations: locationsReducer,
     predictions: predictionsReducer,
+    crops: cropsReducer,
+    plants: plantsReducer,
+    soilData: soilDataReducer,
   },
   middleware: (getDefaultMiddleware) => 
     getDefaultMiddleware({

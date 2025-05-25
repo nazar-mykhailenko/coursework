@@ -98,7 +98,6 @@ namespace AgroPlaner.Api.Controllers
             return Ok(
                 new FullPredictionResponseDto
                 {
-                    RecommendedSeedingDate = prediction.RecommendedSeedingDate,
                     IrrigationAmount = prediction.IrrigationAmount,
                     NextIrrigationDate = prediction.NextIrrigationDate,
                     NitrogenFertilizerAmount = prediction.NitrogenFertilizerAmount,

@@ -77,6 +77,21 @@ namespace AgroPlaner.Services.Services
                 return createdSoilData;
             }
 
+            // Use the already tracked entity to avoid EF tracking conflicts
+            var existingSoilData = crop.Soil;
+            if (existingSoilData != null)
+            {
+                // Update properties of the tracked entity
+                existingSoilData.CurrentMoisture = soilData.CurrentMoisture;
+                existingSoilData.FieldCapacity = soilData.FieldCapacity;
+                existingSoilData.Temperature = soilData.Temperature;
+                existingSoilData.AvailableNitrogen = soilData.AvailableNitrogen;
+                existingSoilData.AvailablePhosphorus = soilData.AvailablePhosphorus;
+                existingSoilData.AvailablePotassium = soilData.AvailablePotassium;
+
+                return await _soilDataRepository.UpdateAsync(existingSoilData);
+            }
+
             return await _soilDataRepository.UpdateAsync(soilData);
         }
         public async Task<SoilData> ApplyIrrigationEventAsync(

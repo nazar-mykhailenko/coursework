@@ -1,6 +1,4 @@
-import axios from 'axios';
-
-const API_URL = 'http://localhost:5105/api'; // adjust as needed for your backend URL
+import api from './api';
 
 export interface Plant {
   plantId: number;
@@ -38,30 +36,12 @@ export interface SeedingPredictionResponse {
 
 export const predictionService = {
   async getAllPlants(): Promise<Plant[]> {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      throw new Error('Authentication required');
-    }
-
-    const response = await axios.get<Plant[]>(`${API_URL}/plants`, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+    const response = await api.get<Plant[]>('/plants');
     return response.data;
   },
 
   async predictSeedingDate(data: SeedingPredictionRequest): Promise<SeedingPredictionResponse> {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      throw new Error('Authentication required');
-    }
-
-    const response = await axios.post<SeedingPredictionResponse>(
-      `${API_URL}/predictions/seeding`,
-      data,
-      {
-        headers: { Authorization: `Bearer ${token}` }
-      }
-    );
+    const response = await api.post<SeedingPredictionResponse>('/predictions/seeding', data);
     return response.data;
   }
 };

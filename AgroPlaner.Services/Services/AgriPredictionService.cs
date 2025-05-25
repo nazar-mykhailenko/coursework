@@ -334,7 +334,6 @@ namespace AgroPlaner.Services.Services
             string currentStage = GetCurrentGrowthStage(crop);
             int growthStageIndex = GetGrowthStageIndex(currentStage, crop);
 
-            result.RecommendedSeedingDate = PredictSeedingDate(crop, weatherForecast, crop.Soil);
             var (irrigationAmount, nextIrrigationDate) = CalculateIrrigation(
                 crop,
                 weatherHistory,
